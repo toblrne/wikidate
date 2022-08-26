@@ -2,11 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Navbar from './components/Navbar'
+import Input from './components/Input'
+import Output from './components/Output'
 
+import './App.scss'
 
 const App = () => {
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    events: [{description : ""}]
+  });
 
   const url = "https://byabbe.se/on-this-day/6/12/events.json"
 
@@ -16,12 +21,15 @@ const App = () => {
       .then(res => setData(res.data))
   }, [])
 
-  console.log(data)
+  
+
 
   return (
-    <div>
+    <div className="main-container">
       <Navbar />
-      {data.events ? data.events[0].description : ""}
+      <Input data={data} />
+      <Output data={data} />
+
     </div>
   );
 }
