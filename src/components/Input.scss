@@ -4,5 +4,27 @@
     margin: 10vh 25vw;
     text-align: center;
     padding: 25px;
+    font: 14px "Open Sans", sans-serif;
+
+    .form-layout {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .selector-label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .month-selector {
+                width: 12vw;
+            }
+
+        }
+
+        
+    }
+
+    
 
 }
