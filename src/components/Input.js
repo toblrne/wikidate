@@ -1,11 +1,10 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
 import './Input.scss'
 
 const Input = () => {
-
 
     const monthOptions = [
         { value: '1', label: 'January' },
@@ -56,41 +55,28 @@ const Input = () => {
         { value: '31', label: '31' }
     ]
 
-    
-
     const [data, setData] = useState({ events: [{ description: "" }] })
-    const [url, setUrl] = useState("https://byabbe.se/on-this-day/12/12/events.json")
-    const [month, setMonth] = useState({value: 1, label: 1})
-    const [day, setDay] = useState({value: 1, label: 1})
-    const [status, setStatus] = useState(true)
-
-    useEffect(() => {
-        axios
-            .get(url)
-            .then(res => setData(res.data))
-    }, [url])
-
-    useEffect(() => {
-        setUrl("https://byabbe.se/on-this-day/" + month.value + "/" + day.value + "/events.json")
-    }, [status])
+    const [month, setMonth] = useState(0) // index for month
+    const [day, setDay] = useState(0)
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        setStatus(prev => !prev)
+        const newURL = "https://byabbe.se/on-this-day/" + monthOptions[month].value + "/" + dayOptions[day].value + "/events.json"
+        axios
+            .get(newURL)
+            .then(res => setData(res.data))
+        console.log(newURL)
     }
 
-    console.log(url)
-
     return (
-        <div className='input' onSubmit={handleSubmit}>
-            <form className='form-layout'>
+        <div className='input'>
+            <form className='form-layout' onSubmit={handleSubmit}>
                 <label className='selector-label'> Month:
                     <Select
                         options={monthOptions}
                         defaultValue={monthOptions[0]}
                         className='month-selector'
-                        onChange={(value) => setMonth(value)
-                        }
+                        onChange={(newObj) => setMonth(parseInt(newObj.value) - 1)}
                     />
                 </label>
 
@@ -99,7 +85,7 @@ const Input = () => {
                         options={dayOptions}
                         defaultValue={dayOptions[0]}
                         className='day-selector'
-                        onChange={(value) => setDay(value)}
+                        onChange={(newObj) => setDay(parseInt(newObj.value) - 1)}
                     />
                 </label>
                 <input type="submit" value="Submit" />
