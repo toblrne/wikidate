@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react';
+import { React, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
 
@@ -57,12 +57,12 @@ const Input = () => {
         { value: '31', label: '31' }
     ]
 
-    const [data, setData] = useState({ events: [{ description: "" }] })
+    const [data, setData] = useState({ events: [{ year: 0, description: "" }] })
     const [month, setMonth] = useState(0) // index for month
     const [day, setDay] = useState(0)
-    const [elem, setElem] = useState(-1)
 
-    const handleSubmit = (event) => {
+
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const newURL = `https://byabbe.se/on-this-day/${monthOptions[month].value}/${dayOptions[day].value}/events.json`
         axios
@@ -71,10 +71,6 @@ const Input = () => {
 
         console.log(newURL)
     }
-
-    useEffect(() => {
-        setElem(Math.floor(Math.random() * data.events.length))
-    }, [data])
 
     return (
         <div>
@@ -100,7 +96,7 @@ const Input = () => {
                     <input type='submit' value='Submit' className='submit' />
                 </form>
             </div>
-            <Output data={data} day={day} month={month} elem={elem} />
+            <Output data={data} />
         </div>
     );
 }
