@@ -1,6 +1,8 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+
+import Output from './Output'
 
 import './Input.scss'
 
@@ -58,38 +60,47 @@ const Input = () => {
     const [data, setData] = useState({ events: [{ description: "" }] })
     const [month, setMonth] = useState(0) // index for month
     const [day, setDay] = useState(0)
+    const [elem, setElem] = useState(-1)
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        const newURL = "https://byabbe.se/on-this-day/" + monthOptions[month].value + "/" + dayOptions[day].value + "/events.json"
+        const newURL = `https://byabbe.se/on-this-day/${monthOptions[month].value}/${dayOptions[day].value}/events.json`
         axios
             .get(newURL)
             .then(res => setData(res.data))
+
         console.log(newURL)
     }
 
-    return (
-        <div className='input'>
-            <form className='form-layout' onSubmit={handleSubmit}>
-                <label className='selector-label'> Month:
-                    <Select
-                        options={monthOptions}
-                        defaultValue={monthOptions[0]}
-                        className='month-selector'
-                        onChange={(newObj) => setMonth(parseInt(newObj.value) - 1)}
-                    />
-                </label>
+    useEffect(() => {
+        setElem(Math.floor(Math.random() * data.events.length))
+    }, [data])
 
-                <label className='selector-label'> Day:
-                    <Select
-                        options={dayOptions}
-                        defaultValue={dayOptions[0]}
-                        className='day-selector'
-                        onChange={(newObj) => setDay(parseInt(newObj.value) - 1)}
-                    />
-                </label>
-                <input type="submit" value="Submit" />
-            </form>
+    return (
+        <div>
+            <div className='input'>
+                <form className='form-layout' onSubmit={handleSubmit}>
+                    <label className='selector-label'> Select Month
+                        <Select
+                            options={monthOptions}
+                            defaultValue={monthOptions[0]}
+                            className='month-selector'
+                            onChange={(newObj) => setMonth(parseInt(newObj.value) - 1)}
+                        />
+                    </label>
+
+                    <label className='selector-label'> Select Day
+                        <Select
+                            options={dayOptions}
+                            defaultValue={dayOptions[0]}
+                            className='day-selector'
+                            onChange={(newObj) => setDay(parseInt(newObj.value) - 1)}
+                        />
+                    </label>
+                    <input type='submit' value='Submit' className='submit' />
+                </form>
+            </div>
+            <Output data={data} day={day} month={month} elem={elem} />
         </div>
     );
 }

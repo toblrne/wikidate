@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Select from 'react-select';
+import React from 'react';
 import Input from './components/Input'
 
 import Navbar from './components/Navbar'
@@ -11,22 +9,11 @@ import './components/Input.scss'
 import './components/Output.scss'
 
 const App = () => {
-  
+
   return (
     <div className="main-container">
       <Navbar />
-
       <Input />
-
-
-
-
-
-
-      {/* <div className="output">
-        {data.events[randomElement].description}
-      </div> */}
-
     </div>
   );
 }
