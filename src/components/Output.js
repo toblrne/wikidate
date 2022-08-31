@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 
 import './Output.scss'
 
-const Input = ({ data, /*elem*/ }) => {
+const Input = ({ data }) => {
 
     const [elem, setElem] = useState(0)
 
