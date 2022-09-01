@@ -62,7 +62,7 @@ const Input = () => {
     const [day, setDay] = useState(0)
 
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault()
         const newURL = `https://byabbe.se/on-this-day/${monthOptions[month].value}/${dayOptions[day].value}/events.json`
         axios
@@ -70,6 +70,16 @@ const Input = () => {
             .then(res => setData(res.data))
 
         console.log(newURL)
+    }
+
+    const handleDays = () => {
+        if (month === 1) {
+            return dayOptions.slice(0, 28)
+        } else if (month % 2 === 0) {
+            return dayOptions
+        } else {
+            return dayOptions.slice(0, 30)
+        }
     }
 
     return (
@@ -87,7 +97,7 @@ const Input = () => {
 
                     <label className='selector-label'> Select Day
                         <Select
-                            options={dayOptions}
+                            options={(handleDays())}
                             defaultValue={dayOptions[0]}
                             className='day-selector'
                             onChange={(newObj) => setDay(parseInt(newObj.value) - 1)}
